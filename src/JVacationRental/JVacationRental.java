@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class JVacationRental extends JFrame implements ItemListener{
+public class JVacationRental extends JFrame implements ActionListener{
 	final int PARKSIDE = 600;
     final int POOLSIDE = 750;
     final int LAKESIDE = 825;
-    final int ONEBED = 0;
+    final int ONEBED = 50;
     final int TWOBED = 75;
     final int THREEBED = 150;
     final int MEAL = 200;
@@ -30,19 +30,21 @@ public class JVacationRental extends JFrame implements ItemListener{
 	JRadioButton j8 = new JRadioButton("No meals");
 	ButtonGroup c = new ButtonGroup();
 
-	Button ok = new Button("Ok");
-	ok.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			total = location + beds + meal;
-			JOptionPane.showMessageDialog(null, "Total: $" + total);
-		}});
-			
+	JButton ok = new JButton("Ok");		
+		
+
 	public JVacationRental() {
 		setTitle("Vacation Rental");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(300, 330);
 		setLayout(new FlowLayout());
-		JLabel totallabel = new JLabel("");
+		ok.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				total = location + beds + meal;
+				JOptionPane.showMessageDialog(null, "Total: $" + total);
+			}
+			
+		});
 		
 		a.add(j1);
 		a.add(j2);
@@ -56,59 +58,42 @@ public class JVacationRental extends JFrame implements ItemListener{
 		c.add(j7);
 		c.add(j8);
 		
-		j1.addItemListener(this);
-		j2.addItemListener(this);
-		j3.addItemListener(this);
-		j4.addItemListener(this);
-		j5.addItemListener(this);
-		j6.addItemListener(this);
-		j7.addItemListener(this);
-		j8.addItemListener(this);
 		
-		
-		add(j1);
-		add(j2);
-		add(j3);
-		add(j4);
-		add(j5);
-		add(j6);
-		add(j7);
-		add(j8);
-		add(ok);
-		add(totallabel);
+		this.add(j1);
+		this.add(j2);
+		this.add(j3);
+		this.add(j4);
+		this.add(j5);
+		this.add(j6);
+		this.add(j7);
+		this.add(j8);
+		this.add(ok);
 		
 		
 		setVisible(true);
 	}
 	public static void main(String[] args) {
         JVacationRental jVacationRental = new JVacationRental();
-    }	
-
-	public void itemStateChanged(ItemEvent e) {
+    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		int select = e.getStateChange();
+		if (source==j1) {
+			total += PARKSIDE;}
+		if (source==j2) {
+			total += POOLSIDE;}
+		if (source==j3) {
+			total += LAKESIDE;}
 		
-		if (a.getSelection()==j1) {
-			location = PARKSIDE;
-		}
-		if (a.getSelection()==j2) {
-			location = POOLSIDE;
-		}
-		if (a.getSelection()==j3) {
-			location = LAKESIDE;
-		}
+		if (source==j4) {
+			total += ONEBED;}
+		if (source==j5) {
+			total += TWOBED;}
+		if (source==j6) {
+			total += THREEBED;}
 		
-		if (b.getSelection()==j1) {
-			beds = ONEBED;
-		}
-		if (b.getSelection()==j2) {
-			beds = TWOBED;
-		}
-		if (b.getSelection()==j3) {
-			beds = THREEBED;
-		}
-		
-		if (a.getSelection()==j1) {
-			meal = MEAL;
-		}}
-}}}
+		if (source==j7) {
+			total += MEAL;}
+	}	
+
+}
